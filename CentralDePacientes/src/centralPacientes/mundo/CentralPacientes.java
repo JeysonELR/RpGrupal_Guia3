@@ -253,14 +253,46 @@ public class CentralPacientes {
      * Retorna la cantidad de hombres que hay en la lista
      */
     public int cantHombres() {
-        return 0;
+        // Se inicializa al nodo del paciente actual con el valor del primero
+        Paciente actual = primero;
+        // Se inicializa una variable local llamada cantidad en su valor 0
+        int cantidad = 0;
+
+        // Se recorre la lista de nodos de Pacientes uno por uno
+        while (actual != null) {
+            // Se pregunta si cumple la condicion de sexo el nodo actual
+            if(actual.darSexo() == Paciente.HOMBRE){
+                // Se aumenta en uno la el valor de cantidad si la condicion es verdadera
+                cantidad++;
+            }
+            // Se asigna el valor a actual del nodo siguiente
+            actual = actual.darSiguiente();
+        }
+        // Se retorna el valor de cantidad una vez se recorren todos los nodos
+        return cantidad;
     }
 
     /**
      * Retorna la cantidad de mujeres que hay en la lista
      */
     public int cantMujeres() {
-        return 0;
+        // Se inicializa al nodo del paciente actual con el valor del primero
+        Paciente actual = primero;
+        // Se inicializa una variable local llamada cantidad en su valor 0
+        int cantidad = 0;
+
+        // Se recorre la lista de nodos de Pacientes uno por uno
+        while (actual != null) {
+            // Se pregunta si cumple la condicion de sexo el nodo actual
+            if(actual.darSexo() == Paciente.MUJER){
+                // Se aumenta en uno la el valor de cantidad si la condicion es verdadera
+                cantidad++;
+            }
+            // Se asigna el valor a actual del nodo siguiente
+            actual = actual.darSiguiente();
+        }
+        // Se retorna el valor de cantidad una vez se recorren todos los nodos
+        return cantidad;
     }
 
     /**
