@@ -29,9 +29,9 @@ public class EvaluadorPostfijo {
      * @param expresion una lista de elementos con números u operadores
      * @return el resultado de la evaluación de la expresión.
      */
-    static double evaluarPostFija(List<String> expresion) throws Exception{
+    static int evaluarPostFija(List<String> expresion) throws Exception{
         // Se cambia la pila a elementos de tipo double para manejo de decimales
-        Stack<Double> pila = new Stack<>();
+        Stack<Integer> pila = new Stack<>();
 
         // TODO: Realiza la evaluación de la expresión en formato postfijo
         // Se recorre la lista (expresion) de items ingresados por consola y separados uno por uno con la funcion Token.dividir
@@ -45,7 +45,7 @@ public class EvaluadorPostfijo {
             st.commentChar('#');
             st.ordinaryChar('/');
             // Se inicializa una variable double para guardar valores futuros de las operaciones
-            double newValue = 0;
+            int newValue = 0;
 
             // se crea una variable entera tok con el valor de st.nexToken
             int tok = st.nextToken();
@@ -54,7 +54,7 @@ public class EvaluadorPostfijo {
             // Se valida si el valor de la lista item es un numero
             if (t.isNumber()) {
                 // Si el valor es un numero, se agrega a la pila como un double
-                pila.add(Double.valueOf(item));
+                pila.push(Integer.valueOf(item));
                 // Si no es un numero se valida si es un operador
             } else if (t.isOperator()) {
                 // Si es un operador primero validamos si la pila tiene elementos
@@ -63,14 +63,14 @@ public class EvaluadorPostfijo {
                     throw new Exception("No se han ingresado suficientes elementos para operar");
                 } else {
                     // Si la pila tiene elemetos, sacamos ese valor de la pila para operarlo
-                    double value1 = pila.pop();
+                    int value1 = pila.pop();
                     // se valida si existe otro elemento en la pila para operar
                     if (pila.empty()) {
                         // si no se tiene se retorna una excepcion
                         throw new Exception("No se han ingresado suficientes elementos para operar");
                     } else {
                         // si existe otro elemeto, se saca de la pila para operar con el elemento anterior
-                        double value2 = pila.pop();
+                        int value2 = pila.pop();
                         // Se valida cual es el operador y dependiendo de este se realiza la respectiva operacion con los valores extraidos de la pila
                         switch (item) {
                             case "+":
@@ -88,9 +88,13 @@ public class EvaluadorPostfijo {
                             case "^":
                                 newValue = potencia(value2, value1);
                                 break;
+                            case "%":
+                                newValue = modulo(value2, value1);
+                            default:
+                                throw new Exception("No se puede utilizar el operador " + item);
                         }
                         // Se agrega el resultado de la operacion a la pila
-                        pila.add(newValue);
+                        pila.push(newValue);
                     }
                 }
             }
@@ -105,19 +109,21 @@ public class EvaluadorPostfijo {
         return pila.pop();
     }
 
-    static double suma(double a, double b){
+    static int suma(int a, int b){
         return a + b;
     }
 
-    static double resta(double a, double b){
+    static int resta(int a, int b){
         return a - b;
     }
 
-    static double multiplicacion(double a, double b){
+    static int multiplicacion(int a, int b){
         return a * b;
     }
 
-    static double division(double a, double b) throws Exception {
+    static int modulo(int a, int b){ return a % b;}
+
+    static int division(int a, int b) throws Exception {
         if(b==0){
             throw new Exception("Division por 0 no permitida");
         }else {
@@ -125,8 +131,8 @@ public class EvaluadorPostfijo {
         }
     }
 
-    static  double potencia(double a, double b){
-        return Math.pow(a,b);
+    static  int potencia(int a, int b){
+        return Integer.parseInt(String.valueOf(Math.pow(a,b)));
     }
 
     /**
